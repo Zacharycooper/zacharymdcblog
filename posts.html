@@ -95,7 +95,7 @@ let currentIndex = 0;
 document.getElementById('postDate').max = new Date().toISOString().split('T')[0];
 
 
-fetch('./Posts.json')
+fetch('/JSON/Posts.json')
   .then(res => res.json())
   .then(posts => {
     allPosts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -248,7 +248,7 @@ function loadByTime() {
 }
 
 </script>
-  <script>fetch('./Stories.json')
+  <script>fetch('/JSON/Stories.json')
   .then(response => response.json())
   .then(data => {
     const stories = data;
