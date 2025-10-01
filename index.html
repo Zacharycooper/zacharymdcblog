@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zacharymdc</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+*{
+    align-items: center;
+}
+
+.story-ring {
+  width: 160px;         
+  height: 160px;
+  border-radius: 50%;    
+  padding: 5px;         
+  display: flex;
+  object-position: center;
+    display: grid;             
+  place-items: center; 
+}
+.story-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;     
+  object-fit: cover;
+  background: white;  
+  padding: 5px;  
+  object-position: center;
+}
+#storycontainercontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  height: 13vh;   
+}
+</style>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Zacharymdc</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="vlogs.html">Vlogs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="posts.html">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="storyhighlights.html">Story Highlights</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Homepage Content -->
+  <div class="container my-5 text-center">
+    <div id="storycontainercontainer">
+    <div class="story-ring" id="storyring"> <!--Stories-->
+    <img src="pfp.jpg" id="story" class="" alt="Circular Image" width="150" height="150" >  
+    </div>
+    </div>
+    <br>
+    <h1 class="display-4">Zacharymdc</h1>
+    <a class="lead" href="https://www.instagram.com/zacharymdc/">Instagram</a>
+    <p class="lead">Feel free to open all video content (including stories) on youtube, and comment!</p>
+    <div class="modal fade" id="storyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-body p-0">
+        <div id="storyCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner" id="carousel-inner">
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#storyCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#storyCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <hr>
+    <!-- Embeds -->
+    <div class="row justify-content-center">
+      <div class="col-lg-8" id="postshere">
+    
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

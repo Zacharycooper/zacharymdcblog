@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zacharymdc</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+*{
+    align-items: center;
+}
+
+.story-ring {
+  width: 160px;         
+  height: 160px;
+  border-radius: 50%;    
+  padding: 5px;         
+  display: flex;
+  object-position: center;
+    display: grid;             
+  place-items: center; 
+}
+.story-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;     
+  object-fit: cover;
+  background: white;  
+  padding: 5px;  
+  object-position: center;
+}
+#storycontainercontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  height: 13vh;   
+}
+</style>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Zacharymdc</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="vlogs.html">Vlogs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="posts.html">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="storyhighlights.html">Story Highlights</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-5 text-center">
+        <div id="storycontainercontainer">
+    <div class="story-ring" id="storyring"> <!--Stories-->
+    <img src="pfp.jpg" id="story" class="" alt="Circular Image" width="150" height="150" >  
+    </div>
+    </div>
+    <br>
+    <h1 class="display-4">Posts</h1>
+<br>
+<div class="mb-3">
+  <label for="postDate" class="form-label">Search post by date:</label>
+  <input type="date" id="postDate" class="form-control" max="">
+</div>
+<button class="btn btn-primary mb-3" onclick="loadByTime()">Load Posts</button>
+<hr>
+<div class="row justify-content-center">
+  <div class="col-lg-8" id="postshere"></div>
+</div>
+</div>
+<script>
+const inner = document.getElementById('postshere');
+let allPosts = [];
+let filteredPosts = [];
+let postsPerPage = 8;
+let currentIndex = 0;
+
+
+document.getElementById('postDate').max = new Date().toISOString().split('T')[0];
+
+
+fetch('./Posts.json')
+  .then(res => res.json())
+  .then(posts => {
+    allPosts = posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    filteredPosts = [...allPosts];
+    loadMorePosts();
+  })
+  .catch(err => console.error(err));
+
+
+function loadMorePosts() {
+  const nextPosts = filteredPosts.slice(currentIndex, currentIndex + postsPerPage);
+
+  nextPosts.forEach(post => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '20px';
+
+    const date = new Date(post.timestamp);
+    const ausDate = date.toLocaleDateString("en-AU");
+
+    if (post.type === 'video' || post.type === 'vlog') {
+      const textwrap = `<p class="badge bg-${post.type==='video'?'danger':'primary'} text-wrap">
+                          ${post.type==='video'?'Video Post':post.vlog}
+                        </p>
+                        <br><p class="badge bg-secondary text-wrap">${ausDate}</p>`;
+
+      const videoWrapper = document.createElement('div');
+      videoWrapper.style.position = 'relative';
+      videoWrapper.style.width = '100%';
+      videoWrapper.style.paddingBottom = '56.25%';
+      videoWrapper.style.height = '0';
+      videoWrapper.style.marginBottom = '10px';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = post.url;
+      iframe.title = 'YouTube video player';
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.style.position = 'absolute';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+
+      videoWrapper.appendChild(iframe);
+
+      const wrap = document.createElement('div');
+      wrap.innerHTML = textwrap;
+      div.appendChild(wrap);
+      div.appendChild(videoWrapper);
+
+      const caption = document.createElement('p');
+      caption.innerHTML = post.caption;
+      div.appendChild(caption);
+      div.appendChild(document.createElement('hr'));
+      inner.appendChild(div);
+
+    } else if (post.type === 'photo') {
+      const carouselId = `carousel${post.id}`;
+      const carouselDiv = document.createElement('div');
+      carouselDiv.id = carouselId;
+      carouselDiv.className = 'carousel slide';
+      carouselDiv.setAttribute('data-bs-interval', 'false');
+
+      const innerDiv = document.createElement('div');
+      innerDiv.className = 'carousel-inner';
+
+      for (let i = 1; i <= post.count; i++) {
+        const photoKey = 'photo' + i;
+        if (post[photoKey]) {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'carousel-item' + (i === 1 ? ' active' : '');
+
+          const img = document.createElement('img');
+          img.src = post[photoKey];
+          img.className = 'd-block w-100';
+          img.style.width = '70%';
+          img.style.height = '70%';
+          img.alt = `Photo ${i}`;
+
+          itemDiv.appendChild(img);
+          innerDiv.appendChild(itemDiv);
+        }
+      }
+
+      carouselDiv.appendChild(innerDiv);
+
+      const prev = document.createElement('button');
+      prev.className = 'carousel-control-prev';
+      prev.type = 'button';
+      prev.setAttribute('data-bs-target', `#${carouselId}`);
+      prev.setAttribute('data-bs-slide', 'prev');
+      prev.innerHTML = `<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>`;
+
+      const next = document.createElement('button');
+      next.className = 'carousel-control-next';
+      next.type = 'button';
+      next.setAttribute('data-bs-target', `#${carouselId}`);
+      next.setAttribute('data-bs-slide', 'next');
+      next.innerHTML = `<span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>`;
+
+      carouselDiv.appendChild(prev);
+      carouselDiv.appendChild(next);
+
+      const wrap = document.createElement('div');
+      wrap.innerHTML = `<p class="badge bg-success text-wrap">Photo Post</p>
+                        <br><p class="badge bg-secondary text-wrap">${ausDate}</p>`;
+
+      div.appendChild(wrap);
+      div.appendChild(carouselDiv);
+
+      const caption = document.createElement('p');
+      caption.innerHTML = post.caption;
+      div.appendChild(caption);
+      div.appendChild(document.createElement('hr'));
+      inner.appendChild(div);
+    }
+  });
+
+  currentIndex += postsPerPage;
+}
+
+
+window.addEventListener('scroll', () => {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+    if (currentIndex < filteredPosts.length) {
+      loadMorePosts();
+    }
+  }
+});
+
+
+
+function loadByTime() {
+    const dateInput = document.getElementById('postDate').value;
+    if (!dateInput) return;
+
+    const selectedDate = new Date(dateInput);
+
+    filteredPosts = allPosts
+        .filter(p => new Date(p.timestamp) >= selectedDate)
+        .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+    inner.innerHTML = '';
+    currentIndex = 0;
+
+    loadMorePosts();
+}
+
+</script>
+  <script>fetch('./Stories.json')
+  .then(response => response.json())
+  .then(data => {
+    const stories = data;
+
+    const filter24h = stories.filter(s => {
+      const now = new Date();
+      const storyTime = new Date(s.timestamp);
+      return (now - storyTime) <= 24 * 60 * 60 * 1000;
+    });
+
+    if (filter24h.length > 0) {
+      document.getElementById('storyring').style.background = `
+        conic-gradient(#feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75)
+      `;
+    }else{
+        document.getElementById('storyring').style.background = `gray`;
+    }
+
+    function populateCarousel() {
+      const inner = document.getElementById('carousel-inner');
+      inner.innerHTML = ``;
+
+      if (filter24h.length === 0) {
+        return window.location.replace('storyhighlights.html')
+      } else {
+        filter24h.forEach((story, index) => {
+          const div = document.createElement('div');
+          div.className = 'carousel-item' + (index === 0 ? ' active' : '');
+          div.innerHTML = `<iframe src="${story.url}" class="d-block w-100" alt="Story"></iframe>`;
+          inner.appendChild(div);
+        });
+      }
+    }
+
+    document.getElementById('story').addEventListener('click', () => {
+      populateCarousel();
+      const storyModal = new bootstrap.Modal(document.getElementById('storyModal'));
+      storyModal.show();
+    });
+  })
+  .catch(err => console.error(err));
+
+</script>
+
+</body>
+</html>
