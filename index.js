@@ -3,7 +3,7 @@ function twentytwopointthreerecurringthrice(){
 }
 
 // Stories
-fetch('./Stories.json')
+fetch('/JSON/Stories.json')
   .then(response => response.json())
   .then(data => {
     const stories = data;
@@ -48,7 +48,7 @@ fetch('./Stories.json')
 
 //Posts
 
-fetch('./Posts.json')
+fetch('/JSON/Posts.json')
   .then(response => response.json())
 .then(posts => {
   const inner = document.getElementById('postshere');
