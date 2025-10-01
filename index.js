@@ -3,7 +3,7 @@ function twentytwopointthreerecurringthrice(){
 }
 
 // Stories
-fetch('./JSON/Stories.json')
+fetch('/JSON/Stories.json')
   .then(response => response.json())
   .then(data => {
     const stories = data;
@@ -32,7 +32,7 @@ fetch('./JSON/Stories.json')
         filter24h.forEach((story, index) => {
           const div = document.createElement('div');
           div.className = 'carousel-item' + (index === 0 ? ' active' : '');
-          div.innerHTML = `<iframe src="${story.url}" class="d-block w-100" alt="Story"></iframe>`;
+          div.innerHTML = `<iframe width="560" height="315" src="${story.url}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
           inner.appendChild(div);
         });
       }
@@ -48,7 +48,7 @@ fetch('./JSON/Stories.json')
 
 //Posts
 
-fetch('./JSON/Posts.json')
+fetch('/JSON/Posts.json')
   .then(response => response.json())
 .then(posts => {
   const inner = document.getElementById('postshere');
@@ -180,5 +180,4 @@ fetch('./JSON/Posts.json')
     inner.appendChild(btnDiv);
   }
 }).catch(err => console.error(err));
-
 
