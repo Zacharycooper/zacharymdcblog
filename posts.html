@@ -277,7 +277,7 @@ function loadByTime() {
         filter24h.forEach((story, index) => {
           const div = document.createElement('div');
           div.className = 'carousel-item' + (index === 0 ? ' active' : '');
-          div.innerHTML = `<iframe src="${story.url}" class="d-block w-100" alt="Story"></iframe>`;
+          div.innerHTML = `<iframe width="560" height="315" src="${story.url}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
           inner.appendChild(div);
         });
       }
