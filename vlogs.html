@@ -135,12 +135,65 @@ fetch('/JSON/Posts.json')
     });
   });
 
-function find() {
-  if (!selectedVlog) {
+function find(urlvlog) {
+  if(urlvlog){
+    fetch('./JSON/Posts.json')
+    .then(response => response.json())
+    .then(posts => {
+      const post = posts.find(item => item.vlogno === urlvlog);
+      if (!post) return;
+
+      const inner = document.getElementById('postshere');
+      inner.innerHTML = ''; 
+
+      const date = new Date(post.timestamp);
+      const ausDate = date.toLocaleDateString("en-AU"); 
+
+      const div = document.createElement('div'); 
+
+      const textwrap = `<p class="badge bg-primary text-wrap">${post.vlog}</p>
+                        <br><p class="badge bg-secondary text-wrap">${ausDate}</p>`;
+
+      const videoWrapper = document.createElement('div');
+      videoWrapper.style.position = 'relative';
+      videoWrapper.style.width = '100%';
+      videoWrapper.style.paddingBottom = '56.25%'; 
+      videoWrapper.style.height = '0';
+      videoWrapper.style.marginBottom = '10px';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = post.url;
+      iframe.title = 'YouTube video player';
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
+
+      iframe.style.position = 'absolute';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+
+      videoWrapper.appendChild(iframe);
+      const wrap = document.createElement('div');
+      wrap.innerHTML = textwrap;
+      div.appendChild(wrap);
+      div.appendChild(videoWrapper);
+
+      const caption = document.createElement('p');
+      caption.innerHTML = post.caption;
+      div.appendChild(caption);
+      div.appendChild(document.createElement('hr'));
+
+      inner.appendChild(div);
+    });
+    return
+  }
+    if (!selectedVlog) {
     alert("Please select a vlog first");
     return;
   }
-
   fetch('./JSON/Posts.json')
     .then(response => response.json())
     .then(posts => {
@@ -192,6 +245,11 @@ function find() {
 
       inner.appendChild(div);
     });
+}
+const params = new URLSearchParams(window.location.search);
+
+if (params.has("vlog")) {
+  find(params.get("vlog"))
 }
 </script>
   <script>fetch('/JSON/Stories.json')
