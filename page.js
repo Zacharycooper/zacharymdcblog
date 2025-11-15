@@ -32,6 +32,9 @@ function explode() {
         alert("Photos: " + output);
 
     }else if(type === "story"){
+        if(bin==""){
+            bin = null
+        }
         output = `{ "url": "${url}", "timestamp": "${timecode}", "bin": "${bin}" }`;
         navigator.clipboard.writeText(output);
         alert("Video: " + output);
@@ -39,3 +42,4 @@ function explode() {
         alert("no");
     }
 }
+
