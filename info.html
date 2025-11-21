@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zacharymdc</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+*{
+    align-items: center;
+}
+
+.story-ring {
+  width: 160px;         
+  height: 160px;
+  border-radius: 50%;    
+  padding: 5px;         
+  display: flex;
+  object-position: center;
+    display: grid;             
+  place-items: center; 
+}
+.story-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;     
+  object-fit: cover;
+  background: white;  
+  padding: 5px;  
+  object-position: center;
+}
+#storycontainercontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  height: 13vh;   
+}
+</style>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index">Zacharymdc</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="vlogs">Vlogs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="posts">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="storyhighlights">Story Highlights</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Homepage Content -->
+  <div class="container my-5 text-center">
+        <div id="storycontainercontainer">
+    <div class="story-ring" id="storyring"> <!--Stories-->
+    <img src="pfp.jpg" id="story" class="" alt="Circular Image" width="150" height="150" >  
+    </div>
+    </div>
+    <br>
+    <h1 class="display-4">Vlog Informatiom</h1>
+    <hr>
+    <!-- Embeds -->
+    <div class="row justify-content-center">
+      <div class="col-lg-8" id="postshere">
+    
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function find(urlvlog) {
+  if(urlvlog){
+    console.log(urlvlog)
+    fetch('./JSON/info.json')
+    .then(response => response.json())
+    .then(posts => {
+      const post = posts.find(item => item.code === urlvlog);
+      if (!post){
+        fetch('./JSON/Posts.json')
+    .then(response => response.json())
+    .then(posts => {
+        const dc = posts.find(item => item.vlogno === urlvlog);
+      if (dc){
+        const inner = document.getElementById('postshere');
+      inner.innerHTML = `<p class="text-primary">The vlog at question exists, however the vlog information hasnt yet been written. Please check back soon!<br><br><a class='btn btn-success' href="/vlogs?vlog=${urlvlog}">Watch the vlog now <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-btn" viewBox="0 0 16 16">
+  <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+</svg></a>`; 
+      }else{
+        const inner = document.getElementById('postshere');
+      inner.innerHTML = `<p class="text-danger">The vlog code in the URL is incorrect or invalid. Please make sure its typed correctly, or select a vlog from the dropdown above.</p>`; 
+      }
+    })
+    return
+      }
+
+      const inner = document.getElementById('postshere');
+      inner.innerHTML = ''; 
+      inner.innerHTML = `<div>${post.info}<br><a class='btn btn-success' href="/vlogs?vlog=${post.code}">Watch the vlog now <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-btn" viewBox="0 0 16 16">
+  <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+</svg></a></div>`
+
+    });
+    return
+  }
+  
+
+}
+const params = new URLSearchParams(window.location.search);
+
+if (params.has("inf")) {
+  find(params.get("inf"))
+}else{
+     const inner = document.getElementById('postshere');
+      inner.innerHTML = `<p class="text-warning">You have somehow managed to access this webpage without a vlog Referall. Please leave or something and come back with a referall link.<br><br><a class='btn btn-warning' href="vlogs.html">Vlogs <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-btn" viewBox="0 0 16 16">
+  <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+</svg></a>`;
+}
+</script>
+  <script>fetch('/JSON/Stories.json')
+  .then(response => response.json())
+  .then(data => {
+    const stories = data;
+
+    const filter24h = stories.filter(s => {
+      const now = new Date();
+      const storyTime = new Date(s.timestamp);
+      return (now - storyTime) <= 24 * 60 * 60 * 1000;
+    });
+
+    if (filter24h.length > 0) {
+      document.getElementById('storyring').style.background = `
+        conic-gradient(#feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75)
+      `;
+    }else{
+        document.getElementById('storyring').style.background = `gray`;
+    }
+
+    function populateCarousel() {
+      const inner = document.getElementById('carousel-inner');
+      inner.innerHTML = ``;
+
+      if (filter24h.length === 0) {
+        return window.location.replace('storyhighlights')
+      } else {
+        filter24h.forEach((story, index) => {
+          const div = document.createElement('div');
+          div.className = 'carousel-item' + (index === 0 ? ' active' : '');
+          div.innerHTML = `<iframe width="560" height="315" src="${story.url}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+          inner.appendChild(div);
+        });
+      }
+    }
+
+    document.getElementById('story').addEventListener('click', () => {
+      populateCarousel();
+      const storyModal = new bootstrap.Modal(document.getElementById('storyModal'));
+      storyModal.show();
+    });
+  })
+  .catch(err => console.error(err));
+
+</script>
+</body>
+</html>
