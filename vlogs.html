@@ -42,7 +42,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">Zacharymdc</a>
+      <a class="navbar-brand" href="index">Zacharymdc</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -52,13 +52,13 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="vlogs.html">Vlogs</a>
+            <a class="nav-link" href="vlogs">Vlogs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="posts.html">Posts</a>
+            <a class="nav-link" href="posts">Posts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="storyhighlights.html">Story Highlights</a>
+            <a class="nav-link" href="storyhighlights">Story Highlights</a>
           </li>
         </ul>
       </div>
@@ -126,13 +126,6 @@ fetch('/JSON/Posts.json')
         item.style.display = text.includes(search) ? '' : 'none';
       });
     });
-
-    document.querySelectorAll('#vlogs .dropdown-item').forEach(item => {
-      item.addEventListener('click', e => {
-        selectedVlog = e.target.dataset.vlog;
-        document.getElementById('dropdownMenuButton').innerText = e.target.innerText; 
-      });
-    });
   });
 
 function find(urlvlog) {
@@ -184,6 +177,12 @@ function find(urlvlog) {
       const caption = document.createElement('p');
       caption.innerHTML = post.caption;
       div.appendChild(caption);
+      const info = document.createElement('div')   
+      info.innerHTML = `<a class='btn btn-info'>Additional Vlog Information <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+</svg> </a>`
+      div.appendChild(info)
       div.appendChild(document.createElement('hr'));
 
       inner.appendChild(div);
@@ -241,6 +240,12 @@ function find(urlvlog) {
       const caption = document.createElement('p');
       caption.innerHTML = post.caption;
       div.appendChild(caption);
+      const info = document.createElement('div')   
+      info.innerHTML = `<a class='btn btn-info'>Additional Vlog Information <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+</svg> </a>`
+      div.appendChild(info)
       div.appendChild(document.createElement('hr'));
 
       inner.appendChild(div);
@@ -276,7 +281,7 @@ if (params.has("vlog")) {
       inner.innerHTML = ``;
 
       if (filter24h.length === 0) {
-        return window.location.replace('storyhighlights.html')
+        return window.location.replace('storyhighlights')
       } else {
         filter24h.forEach((story, index) => {
           const div = document.createElement('div');
