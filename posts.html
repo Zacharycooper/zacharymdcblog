@@ -42,7 +42,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">Zacharymdc</a>
+      <a class="navbar-brand" href="index">Zacharymdc</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -52,13 +52,13 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="vlogs.html">Vlogs</a>
+            <a class="nav-link" href="vlogs">Vlogs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="posts.html">Posts</a>
+            <a class="nav-link" href="posts">Posts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="storyhighlights.html">Story Highlights</a>
+            <a class="nav-link" href="storyhighlights">Story Highlights</a>
           </li>
         </ul>
       </div>
@@ -272,7 +272,7 @@ function loadByTime() {
       inner.innerHTML = ``;
 
       if (filter24h.length === 0) {
-        return window.location.replace('storyhighlights.html')
+        return window.location.replace('storyhighlights')
       } else {
         filter24h.forEach((story, index) => {
           const div = document.createElement('div');
