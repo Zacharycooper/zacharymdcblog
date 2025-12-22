@@ -255,6 +255,8 @@ const params = new URLSearchParams(window.location.search);
 
 if (params.has("vlog")) {
   find(params.get("vlog"))
+}else if(params.has("v")){
+  find(params.get("v"))
 }
 </script>
   <script>fetch('/JSON/Stories.json')
